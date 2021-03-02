@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :articles
   has_many :comments, dependent: :destroy
+  has_many :photos
 
   validates :email,
   presence: true,
