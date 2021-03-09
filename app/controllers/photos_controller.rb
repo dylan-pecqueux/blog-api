@@ -6,7 +6,6 @@ class PhotosController < ApplicationController
   
     # GET /photos
     def index
-  
       render json: Photo.all.with_attached_picture.order(id: :desc)
     end
   
@@ -20,8 +19,6 @@ class PhotosController < ApplicationController
       @photo = Photo.new()
       @photo.user = current_user
       @photo.picture.attach(params[:picture])
-      puts "&&&&&&&&&"
-      puts @photo
 
   
       if @photo.save

@@ -7,8 +7,7 @@ class ArticlesController < ApplicationController
   # GET /articles
   def index
     @articles = Article.where(private: false)
-
-    render json: @articles
+    render json: Photo.all.with_attached_picture.order(id: :desc), include: [:user]
   end
 
   # GET /articles/1
@@ -22,7 +21,7 @@ class ArticlesController < ApplicationController
     @article.user = current_user
 
     if @article.save
-      render json: @article, status: :created, location: @article
+      render json: @article, include: [:user], status: :created, location: @article
     else
       render json: @article.errors, status: :unprocessable_entity
     end
@@ -50,7 +49,7 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :content, :user_id, :private)
+      params.require(:article).permit(:content, :user_id, :private)
     end
 
     def is_current?
